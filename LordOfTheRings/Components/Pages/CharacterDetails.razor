@@ -1,0 +1,174 @@
+﻿@page "/characters/{Id:int}"
+@using LordOfTheRings.Interfaces
+@inject ICharacterApiService CharacterApiService
+
+<div class="main-background text-center p-5">
+    <div class="container">
+        <h1 class="text-center" style="color: gold;">Detaljer for Karakter:</h1>
+
+        @if (character == null)
+        {
+            <p style="color: white;">Laster inn...</p>
+        }
+        else
+        {
+            <div class="row mt-5">
+                <div class="col-4 text-left">
+                    <p style="color: gold; font-size: 1.5rem"><strong>Navn:</strong> <span style="color: lime">@character.Name</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Kjønn:</strong> <span style="color: lime">@character.Gender</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Høyde:</strong> <span style="color: lime">@character.Height</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Hårfarge:</strong> <span style="color: lime">@character.Hair_Color</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Øyefarge:</strong> <span style="color: lime">@character.Eye_Color</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Fødselsdato:</strong> <span style="color: lime">@character.Date_Of_Birth</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Riket:</strong> <span style="color: lime">@realm.Name</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Dødsdato:</strong> <span style="color: lime">@character.Date_Of_Death</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Species:</strong> <span style="color: lime">@species.Name </span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Race:</strong> <span style="color: lime">@race.Name</span></p>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Group:</strong> <span style="color: lime">@group.Name</span></p>
+                </div>
+                
+                <div class="col-4 offset-4 text-right">
+                    <p style="color: gold; font-size: 1.5rem"><strong>Språk:</strong></p>
+                    @if (languages != null && languages.Any())
+                    {
+                        <ul class="character-list">
+                            @foreach (var language in languages)
+                            {
+                                <li style="color: lime; font-size: 1.5rem">@language.Name</li>
+                            }
+                        </ul>
+                        <br/>
+                    }
+                    else
+                    {
+                        <p style="color: lime; font-size: 1.5rem">Ingen språk oppgitt.</p>
+                    }
+                    <br/>
+
+                        <p style="color: gold; font-size: 1.5rem"><strong>Våpen:</strong></p>
+                        @if (character.Weapons != null && character.Weapons.Any())
+                        {
+                        <ul class="character-list" style="list-style: none; padding: 0;">
+                            @foreach (var weapon in character.Weapons)
+                            {
+                            <li style="color: limegreen; font-size: 1.5rem">@weapon</li>
+                            }
+                        </ul>
+                        <br />
+                        }
+                        else
+                        {
+                        <p style="color: limegreen; font-size: 1.5rem">Ingen våpen oppgitt.</p>
+                        }
+                    
+                    <p style="color: gold; font-size: 1.5rem"><strong>Filmer:</strong></p>
+                    @if (films != null && films.Any())
+                    {
+                        <ul class="character-list">
+                            @foreach (var film in films)
+                            {
+                                <li style="color: lime; font-size: 1.5rem">@film.Title</li>
+                            }
+                        </ul>
+                        <br/>
+                    }
+                    else
+                    {
+                        <p style="color: limegreen; font-size: 1.5rem">Ingen filmer oppgitt.</p>
+                    }
+                    <br/>
+                    <p style="color: gold; font-size: 1.5rem"><strong>Bøker:</strong></p>
+                    @if (books != null && books.Any())
+                    {
+                        <ul class="character-list">
+                            @foreach (var book in books)
+                            {
+                                <li style="color: lime; font-size: 1.5rem">@book.Title</li>
+                            }
+                        </ul>
+                        <br/>
+                    }
+                    else
+                    {
+                        <p style="color: lime; font-size: 1.5rem">Ingen bøker oppgitt.</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Character character;
+    private Realm realm;
+    private Species species;
+    private Race race;
+    private Group group;
+    private List<Language> languages = new();
+    private List<Film> films = new();
+    private List<Book> books = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        character = await CharacterApiService.GetCharacterDetail(Id);
+
+        if (character?.Realm != null)
+        {
+            realm = await CharacterApiService.GetRealm(character.Realm);
+        }
+
+        if (character?.Species != null)
+        {
+            species = await CharacterApiService.GetSpecies(character.Species);
+        }
+
+        if (character?.Race != null)
+        {
+            race = await CharacterApiService.GetRace(character.Race);
+        }
+
+        if (character?.Group != null)
+        {
+            group = await CharacterApiService.GetGroup(character.Group);
+        }
+
+        if (character?.Languages != null)
+        {
+            foreach (var languageUrl in character.Languages)
+            {
+                var language = await CharacterApiService.GetLanguage(languageUrl);
+                if (language != null)
+                {
+                    languages.Add(language);
+                }
+            }
+        }
+
+
+        if (character?.Films != null)
+        {
+            foreach (var filmUrl in character.Films)
+            {
+                var film = await CharacterApiService.GetFilm(filmUrl);
+                if (film != null)
+                {
+                    films.Add(film);
+                }
+            }
+        }
+
+        if (character?.Books != null)
+        {
+            foreach (var bookUrl in character.Books)
+            {
+                var book = await CharacterApiService.GetBook(bookUrl);
+                if (book != null)
+                {
+                    books.Add(book);
+                }
+            }
+        }
+    }
+}

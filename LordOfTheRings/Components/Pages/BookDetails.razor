@@ -1,0 +1,60 @@
+﻿@page "/books/{Id:int}"
+@using LordOfTheRings.Interfaces
+@inject ICharacterApiService CharacterApiService
+@inject IBookApiService BookApiService
+
+<div class="main-background text-center p-5">
+    <div class="text-center">
+        <h1 style="color: gold ">Bokdetaljer:</h1>
+        <br/>
+        @if (book == null)
+        {
+            <p style="color: white; font-size: 4rem">Laster inn...</p>
+        }
+        else
+        {
+            <p style="color: gold; font-size: 2.5rem"><strong>Tittel:</strong> <span style="color: lime"> @book.Title</span></p>
+            <p style="color: gold; font-size: 1.8rem"><strong>Forfatter:</strong> <span style="color: lime"> @book.Author</span></p>
+            <p style="color: gold; font-size: 1.8rem"><strong>Publisert:</strong> <span style="color: lime"> @book.Publication_Date</span></p>
+
+            <p style="color: gold; font-size: 2rem"><strong>Karakterer:</strong></p>
+            @if (characters != null && characters.Any())
+            {
+                <ul class="character-list">
+                    @foreach (var character in characters)
+                    {
+                        <li style="color: darkmagenta; font-size: 1.5rem">@character.Name</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p style="color: limegreen;">Ingen karakterer oppgitt.</p>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private Book book;
+    private List<Character> characters = new();
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        book = await BookApiService.GetBookDetail(Id);
+
+        if (book?.Characters != null)
+        {
+            foreach (var characterUrl in book.Characters)
+            {
+                var character = await CharacterApiService.GetCharacterDetailByUrl(characterUrl);
+                if (character != null)
+                {
+                    characters.Add(character);
+                }
+            }
+        }
+    }
+}

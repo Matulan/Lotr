@@ -1,0 +1,40 @@
+﻿@page "/books"
+@using LordOfTheRings.Interfaces
+@inject IBookApiService BookApiService
+
+<div class="main-background d-flex justify-content-center align-items-center">
+    <div class="text-center">
+        <h1 style="color: black">Bøker:</h1>
+        <br/>
+        @if (books == null)
+        {
+            <p style="color: white;">Laster inn...</p>
+        }
+        else if (!books.Any())
+        {
+            <p style="color: white;">Ingen bøker tilgjengelige.</p>
+        }
+        else
+        {
+            <ul style="list-style: none; padding: 0; color: white;">
+                @foreach (var book in books)
+                {
+                    <li>
+                        <a href="/books/@book.Id" style="color: gold; text-decoration: underline; font-size: 1.5rem;">
+                            @book.Title av @book.Author
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Book> books;
+
+    protected override async Task OnInitializedAsync()
+    {
+        books = await BookApiService.GetBooks();
+    }
+}

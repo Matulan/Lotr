@@ -1,0 +1,41 @@
+﻿@page "/characters"
+@using LordOfTheRings.Interfaces
+@inject ICharacterApiService CharacterApiService
+
+<div class="main-background text-center p-5">
+    <div class="text-center">
+        <h1 style="color: gold;">Karakterer:</h1>
+        <br/>
+
+        @if (characters == null)
+        {
+            <p style="color: white;">Laster inn...</p>
+        }
+        else if (!characters.Any()) 
+        {
+            <p style="color: white;">Ingen karakterer funnet.</p>
+        }
+        else
+        {
+            <ul class="character-list" style="font-size: 2rem">
+                @foreach (var character in characters)
+                {
+                    <li>
+                        <a href="/characters/@character.Id">
+                            @character.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Character> characters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        characters = await CharacterApiService.GetCharacters();
+    }
+}

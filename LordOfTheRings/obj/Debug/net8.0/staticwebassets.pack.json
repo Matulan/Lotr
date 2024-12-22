@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Matul\\Goksad\\2.semester\\Software design\\Arbeidskrav\\LordOfTheRings\\LordOfTheRings\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\LordOfTheRings.bundle.scp.css",
+      "PackagePath": "staticwebassets\\LordOfTheRings.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Matul\\Goksad\\2.semester\\Software design\\Arbeidskrav\\LordOfTheRings\\LordOfTheRings\\wwwroot\\Images\\RingnesHerre.jpg",
+      "PackagePath": "staticwebassets\\Images\\RingnesHerre.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Matul\\Goksad\\2.semester\\Software design\\Arbeidskrav\\LordOfTheRings\\LordOfTheRings\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Matul\\Goksad\\2.semester\\Software design\\Arbeidskrav\\LordOfTheRings\\LordOfTheRings\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Matul\\Goksad\\2.semester\\Software design\\Arbeidskrav\\LordOfTheRings\\LordOfTheRings\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Matul\\Goksad\\2.semester\\Software design\\Arbeidskrav\\LordOfTheRings\\LordOfTheRings\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LordOfTheRings.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.LordOfTheRings.props",
+      "PackagePath": "build\\LordOfTheRings.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.LordOfTheRings.props",
+      "PackagePath": "buildMultiTargeting\\LordOfTheRings.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.LordOfTheRings.props",
+      "PackagePath": "buildTransitive\\LordOfTheRings.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
